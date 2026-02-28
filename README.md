@@ -1,105 +1,107 @@
-# Insights from Failed Orders (SQL Project)
-
-## Objective
-Analyze failed ride orders to determine whether failures are caused by supply-side issues (no driver assignment, low offers) or customer behavior (cancellations, ETA).
-
-## Dataset
-- data_orders (10,716 rows)
-- data_offers (334,363 rows)
-
-## Approach
-1. Joined orders with offer counts
-2. Created a base analysis view
-3. Calculated key performance indicators
-4. Performed deep-dive analysis (hourly trends, ETA impact, offer distribution)
-
-## Key Metrics
-- Order status distribution
-- Driver assignment rate
-- Offers per order
-- Cancellation timing
-- Hourly failure patterns
-
-## Tools Used
-- SQL (PostgreSQL)
-- GitHub
-- (Power BI / Excel for visualization – to be added)
-
----
-
 # Insights from Failed Orders (SQL Analysis)
 
-## 📌 Objective
-Analyze failed ride orders to determine whether failures are primarily caused by supply-side issues (driver assignment & offers) or customer behavior (cancellations & ETA).
+## 📌 Project Objective
+
+This project analyzes failed ride orders to determine whether failures are primarily driven by:
+
+- Supply-side issues (driver assignment & offer distribution)
+- Customer behavior (cancellations & ETA impact)
+
+The goal is to diagnose operational inefficiencies in the ride-matching system.
 
 ---
 
 ## 📂 Dataset Overview
 
-**Tables Used**
-- `data_orders` (10,716 rows)
-- `data_offers` (334,363 rows)
+Two tables were used:
 
-Key Columns:
-- `order_status_key`
-- `is_driver_assigned_key`
-- `m_order_eta`
-- `cancellations_time_in_seconds`
-- `offer_id`
+### 1️⃣ data_orders (10,716 rows)
+Key columns:
+- order_status_key
+- is_driver_assigned_key
+- m_order_eta
+- cancellations_time_in_seconds
+- order_datetime
+
+### 2️⃣ data_offers (334,363 rows)
+- order_gk
+- offer_id
+
+Each order may receive multiple offers.
 
 ---
 
 ## 🛠 Data Preparation
 
-- Joined `data_orders` with aggregated offer counts.
-- Created a base analysis view (`v_orders_base`).
-- Converted status and assignment keys into readable labels.
+- Aggregated offer counts per order
+- Joined orders with offer counts
+- Created analysis view: `v_orders_base`
+- Converted key columns into readable labels:
+  - order_status
+  - driver_assignment
 
 ---
 
-## 📊 Key Performance Indicators (KPIs)
+## 📊 Key Findings
 
-### 1️⃣ Order Status Distribution
+### 1️⃣ Driver Assignment Problem
 
-| Status | Total Orders | % |
-|--------|--------------|---|
-| Cancelled by Client | 7307 | 68.19% |
-| Cancelled by System | 3409 | 31.81% |
+- 73.7% of orders did NOT receive a driver assignment.
+- Only 26.3% of orders were successfully assigned.
 
----
-
-### 2️⃣ Driver Assignment Rate
-
-| Driver Assignment | Total Orders | % |
-|-------------------|--------------|---|
-| No Driver Assigned | 7907 | 73.74% |
-| Driver Assigned | 2809 | 26.26% |
-
----
-
-### 3️⃣ Status vs Driver Assignment
+### 2️⃣ System Cancellations = Supply Failure
 
 - 99.9% of system cancellations occurred when no driver was assigned.
-- 61.6% of client cancellations also occurred without driver assignment.
+- Indicates supply-side matching failure.
+
+### 3️⃣ Client Cancellations Also Linked to No Assignment
+
+- 61.6% of client cancellations occurred without driver assignment.
+
+### 4️⃣ Offer Distribution Insight
+
+- 29% of orders received zero offers.
+- Assignment rate for zero-offer orders = 15.3%.
+- Assignment improves with 1–2 offers (37.4%).
+- Assignment declines when offers exceed 3+, indicating diminishing returns or driver rejection behavior.
+
+### 5️⃣ Time-Based Imbalance
+
+Assignment collapses during:
+- 2–3 AM
+- 9–11 PM
+
+System cancellations exceed 40% during 2–3 AM.
+
+Mid-morning (10–12 PM) shows highest assignment rate (up to 57.5%).
+
+This suggests supply-demand imbalance during late-night and evening peak hours.
 
 ---
 
-## 🔎 Initial Insights
+## ⚠️ ETA Analysis Limitation
 
-- Only 26% of orders received a driver assignment.
-- Nearly all system cancellations were due to failure to assign a driver.
-- Even customer cancellations are strongly correlated with lack of assignment.
-- Supply-side matching appears to be the dominant failure driver.
-
----
-
-## 📈 Next Steps
-
-- Analyze offer distribution impact.
-- Investigate hourly failure patterns.
-- Study ETA impact on cancellation timing.
-- Identify supply-demand imbalance patterns.
+ETA is only available for assigned orders.
+Dataset contains only failed rides.
+Therefore, ETA impact on cancellation cannot be reliably evaluated.
 
 ---
 
-Project in progress.
+## 🧠 Business Recommendations
+
+1. Increase driver incentives during late-night and late-evening hours.
+2. Improve dispatch strategy for zero-offer orders.
+3. Optimize driver acceptance logic when offers are high but assignment remains low.
+4. Track time-to-first-offer as a core operational KPI.
+
+---
+
+## 🛠 Tools Used
+
+- PostgreSQL (pgAdmin)
+- SQL (CTEs, Window Functions, Aggregations)
+- GitHub (Project Structuring)
+
+---
+
+Project Status: Completed Core Analysis
