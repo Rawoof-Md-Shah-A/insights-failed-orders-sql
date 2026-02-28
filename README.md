@@ -71,19 +71,19 @@ Assignment collapses during:
 - 2–3 AM
 - 9–11 PM
 
-System cancellations exceed 40% during 2–3 AM.
+-System cancellations exceed 40% during 2–3 AM.
 
-Mid-morning (10–12 PM) shows highest assignment rate (up to 57.5%).
+-Mid-morning (10–12 PM) shows highest assignment rate (up to 57.5%).
 
-This suggests supply-demand imbalance during late-night and evening peak hours.
+-This suggests supply-demand imbalance during late-night and evening peak hours.
 
 ---
 
 ## ⚠️ ETA Analysis Limitation
 
-ETA is only available for assigned orders.
-Dataset contains only failed rides.
-Therefore, ETA impact on cancellation cannot be reliably evaluated.
+-ETA is only available for assigned orders.
+-Dataset contains only failed rides.
+-Therefore, ETA impact on cancellation cannot be reliably evaluated.
 
 ---
 
