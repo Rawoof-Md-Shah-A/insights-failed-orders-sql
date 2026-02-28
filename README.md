@@ -93,6 +93,19 @@ ETA is only available for assigned orders.
 2. Improve dispatch strategy for zero-offer orders.
 3. Optimize driver acceptance logic when offers are high but assignment remains low.
 4. Track time-to-first-offer as a core operational KPI.
+   
+---
+
+## 📈 Visual Insights
+
+### Order Status Distribution
+![Status Split](outputs/charts/status_split.png)
+
+### Offer Bucket vs Assignment Rate
+![Offer vs Assignment](outputs/charts/offer_vs_assignment.png)
+
+### Hourly Assignment Pattern
+![Hourly Assignment](outputs/charts/hourly_assignment.png)
 
 ---
 
@@ -103,5 +116,3 @@ ETA is only available for assigned orders.
 - GitHub (Project Structuring)
 
 ---
-
-Project Status: Completed Core Analysis
